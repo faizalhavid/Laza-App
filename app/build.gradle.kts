@@ -60,7 +60,11 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.0.4")
     // Coroutines for asynchronous programming
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
+    implementation("io.coil-kt.coil3:coil-compose:3.0.3")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.3")
     implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.volley)
     implementation(libs.androidx.foundation.layout.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

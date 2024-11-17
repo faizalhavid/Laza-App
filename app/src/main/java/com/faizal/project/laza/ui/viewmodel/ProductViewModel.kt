@@ -27,4 +27,8 @@ class ProductViewModel : ViewModel() {
             }
         }
     }
+
+    fun getProductById(id: String): Product {
+        return _products.value?.find { it.id.toString() == id } ?: Product( id = 0, title = "", description = "", price = 0.0, image = "", category = "")
+    }
 }

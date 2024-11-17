@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.example.compose.primaryContainerDark
 import com.faizal.project.laza.ui.theme.APP_LAYOUT_PADDING
 
+
 @Composable
 fun AppSafeAreaView(
     modifier: Modifier = Modifier,
@@ -29,7 +30,7 @@ fun AppSafeAreaView(
     paddingValues: List<Dp> = APP_LAYOUT_PADDING["M"] ?: listOf(8.dp, 12.dp),
     contentAlignment: Arrangement.Vertical = Arrangement.Top,
     bottomBar: (@Composable () -> Unit)? = null,
-    appBar : (@Composable () -> Unit)? = null,
+    appBar: (@Composable () -> Unit)? = null,
     backgroundComposable: @Composable() (() -> Unit?)? = null,
     children: @Composable () -> Unit
 ) {
@@ -49,18 +50,23 @@ fun AppSafeAreaView(
                 if (backgroundComposable != null) {
                     backgroundComposable()
                 }
-                Column(
-                    modifier = Modifier
-                        .padding(paddingValues[0], paddingValues[1])
-                        .fillMaxSize(),
-                    verticalArrangement = contentAlignment
-                ) {
-                    children()
-                }
+
+
+                    Column(
+                        modifier = Modifier
+                            .padding(paddingValues[0], paddingValues[1])
+                            .fillMaxSize()
+//                            .verticalScroll(rememberScrollState())
+                        ,
+                        verticalArrangement = contentAlignment
+                    ) {
+                        children()
+                    }
                 if (isLoading) {
                     AppLoading(isLoading = isLoading, modifier = Modifier.fillMaxSize())
                 }
             }
+
         }
     )
 }
