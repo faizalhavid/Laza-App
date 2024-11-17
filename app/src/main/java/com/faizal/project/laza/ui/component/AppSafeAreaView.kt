@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,10 +28,14 @@ fun AppSafeAreaView(
     backgroundColor: Color = primaryContainerDark,
     paddingValues: List<Dp> = APP_LAYOUT_PADDING["M"] ?: listOf(8.dp, 12.dp),
     contentAlignment: Arrangement.Vertical = Arrangement.Top,
+    bottomBar: (@Composable () -> Unit)? = null,
+    appBar : (@Composable () -> Unit)? = null,
     backgroundComposable: @Composable() (() -> Unit?)? = null,
     children: @Composable () -> Unit
 ) {
     Scaffold(
+        topBar = { appBar?.invoke() },
+        bottomBar = { bottomBar?.invoke() },
         modifier = modifier
             .fillMaxSize()
             .background(backgroundColor)
@@ -50,8 +52,7 @@ fun AppSafeAreaView(
                 Column(
                     modifier = Modifier
                         .padding(paddingValues[0], paddingValues[1])
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
+                        .fillMaxSize(),
                     verticalArrangement = contentAlignment
                 ) {
                     children()

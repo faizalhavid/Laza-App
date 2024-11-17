@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import com.faizal.project.laza.navigation.AppNavController
 import com.faizal.project.laza.ui.theme.LazaTheme
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

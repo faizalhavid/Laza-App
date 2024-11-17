@@ -5,9 +5,13 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.faizal.project.laza.AppTypography
 
-enum class ButtonType {
+enum class ButtonVariant {
     SOLID,
     OUTLINE,
     TEXT,
@@ -25,7 +29,8 @@ enum class ButtonType {
 @Composable
 fun AppButton(
     onPress: () -> Unit,
-    type: ButtonType = ButtonType.SOLID,
+    type: ButtonVariant = ButtonVariant.SOLID,
+    componentColorType: ComponentColorType = ComponentColorType.PRIMARY,
     label: String? = null,
     icon: @Composable (() -> Unit)? = null,
     disabled: Boolean = false,
@@ -34,7 +39,8 @@ fun AppButton(
     suffixIcon: @Composable (() -> Unit)? = null,
 ) {
     when (type) {
-        ButtonType.SOLID -> SolidButton(
+        ButtonVariant.SOLID -> SolidButton(
+            buttonColors = getButtonColorsForType(componentColorType),
             onPress = onPress,
             label = label,
             icon = icon,
@@ -43,7 +49,8 @@ fun AppButton(
             prefixIcon = prefixIcon,
             suffixIcon = suffixIcon
         )
-        ButtonType.OUTLINE -> OutlineButton(
+        ButtonVariant.OUTLINE -> OutlineButton(
+            buttonColors = getButtonColorsForType(componentColorType),
             onPress = onPress,
             label = label,
             icon = icon,
@@ -52,7 +59,7 @@ fun AppButton(
             prefixIcon = prefixIcon,
             suffixIcon = suffixIcon
         )
-        ButtonType.TEXT -> TextButton(
+        ButtonVariant.TEXT -> TextButton(
             onPress = onPress,
             label = label,
             icon = icon,
@@ -61,7 +68,7 @@ fun AppButton(
             prefixIcon = prefixIcon,
             suffixIcon = suffixIcon
         )
-        ButtonType.ICON -> IconButton(
+        ButtonVariant.ICON -> IconButton(
             onPress = onPress,
             icon = icon!!,
             disabled = disabled,
@@ -81,9 +88,9 @@ fun SolidButton(
     modifier: Modifier = Modifier,
     prefixIcon: @Composable (() -> Unit)? = null,
     suffixIcon: @Composable (() -> Unit)? = null,
+    buttonColors:ButtonColors = ButtonDefaults.buttonColors()
 ) {
-    val buttonColors = ButtonDefaults.buttonColors()
-    val buttonModifier = modifier.fillMaxWidth().then(buttonModifier(type = ButtonType.SOLID))
+    val buttonModifier = modifier.fillMaxWidth().then(buttonModifier(type = ButtonVariant.SOLID))
     val content: @Composable RowScope.() -> Unit = {
         prefixIcon?.invoke()
         if (label != null) {
@@ -116,9 +123,9 @@ fun OutlineButton(
     modifier: Modifier = Modifier,
     prefixIcon: @Composable (() -> Unit)? = null,
     suffixIcon: @Composable (() -> Unit)? = null,
+    buttonColors:ButtonColors = ButtonDefaults.buttonColors()
 ) {
-    val buttonColors = ButtonDefaults.buttonColors()
-    val buttonModifier = modifier.fillMaxWidth().then(buttonModifier(type = ButtonType.OUTLINE))
+    val buttonModifier = modifier.fillMaxWidth().then(buttonModifier(type = ButtonVariant.OUTLINE))
     val content: @Composable RowScope.() -> Unit = {
         prefixIcon?.invoke()
         if (label != null) {
@@ -153,7 +160,7 @@ fun TextButton(
     suffixIcon: @Composable (() -> Unit)? = null,
 ) {
     val buttonColors = ButtonDefaults.textButtonColors(contentColor = Color.White)
-    val buttonModifier = modifier.fillMaxWidth().then(buttonModifier(type = ButtonType.TEXT))
+    val buttonModifier = modifier.fillMaxWidth().then(buttonModifier(type = ButtonVariant.TEXT))
     val content: @Composable RowScope.() -> Unit = {
         prefixIcon?.invoke()
         if (label != null) {
@@ -168,7 +175,7 @@ fun TextButton(
         }
         suffixIcon?.invoke()
     }
-    androidx.compose.material3.TextButton(
+    TextButton(
         onClick = onPress,
         enabled = !disabled,
         colors = buttonColors,
@@ -180,42 +187,38 @@ fun TextButton(
 @Composable
 fun IconButton(
     onPress: () -> Unit,
-    icon: @Composable (() -> Unit),
+    icon: @Composable () -> Unit,
     disabled: Boolean = false,
     modifier: Modifier = Modifier,
     prefixIcon: @Composable (() -> Unit)? = null,
     suffixIcon: @Composable (() -> Unit)? = null,
 ) {
-    val buttonColors = ButtonDefaults.buttonColors()
-    val buttonModifier = modifier.fillMaxWidth().then(buttonModifier(type = ButtonType.ICON))
-    val content: @Composable RowScope.() -> Unit = {
-        prefixIcon?.invoke()
-        icon()
-        suffixIcon?.invoke()
+    val buttonColors = IconButtonDefaults.iconButtonColors()
+    IconButton(
+            onClick = onPress,
+            enabled = !disabled,
+            colors = buttonColors,
+            modifier = modifier,
+            content = {
+                icon()
+            })
     }
-    ElevatedButton(
-        onClick = onPress,
-        enabled = !disabled,
-        colors = buttonColors,
-        shape = RoundedCornerShape(12.dp),
-        modifier = buttonModifier,
-        content = content
-    )
-}
 @Composable
-fun buttonModifier(type: ButtonType): Modifier {
+fun buttonModifier(type: ButtonVariant): Modifier {
     var modifier = Modifier.padding(8.dp, 12.dp)
     modifier = when (type) {
-        ButtonType.SOLID -> {
+        ButtonVariant.SOLID -> {
             modifier
         }
-        ButtonType.OUTLINE -> {
+        ButtonVariant.OUTLINE -> {
             modifier.then(Modifier.border(1.dp, ButtonDefaults.buttonColors().containerColor))
         }
-        ButtonType.TEXT -> {
+        ButtonVariant.TEXT -> {
             modifier.then(Modifier.padding(0.dp))
         }
-        ButtonType.ICON -> TODO()
+        ButtonVariant.ICON -> {
+            modifier.then(Modifier.padding(0.dp))
+        }
     }
     return modifier
 }

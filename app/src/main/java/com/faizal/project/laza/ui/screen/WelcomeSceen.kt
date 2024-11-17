@@ -11,10 +11,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -29,17 +29,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
-import com.example.compose.onTertiaryDark
 import com.faizal.project.laza.AppTypography
 import com.faizal.project.laza.R
 import com.faizal.project.laza.ui.component.AppButton
 import com.faizal.project.laza.ui.component.AppSafeAreaView
-import com.faizal.project.laza.ui.component.ButtonType
+import com.faizal.project.laza.ui.component.ButtonVariant
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
     val genderSelection = remember { mutableIntStateOf(R.drawable.welcome_hero_man) }
-
         AppSafeAreaView(
             statusBarColor = Color.Transparent,
             isLoading = false,
@@ -73,10 +71,7 @@ fun WelcomeScreen(navController: NavController) {
                         .fillMaxHeight()
                 ) {
                     Card(
-                        colors = CardDefaults.cardColors(
-                            containerColor = onTertiaryDark,
-                            contentColor = Color.White,
-                        ),
+
                         shape = RoundedCornerShape(
                             topStart = 20.dp,
                             topEnd = 20.dp,
@@ -85,7 +80,7 @@ fun WelcomeScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .fillMaxWidth()
+                            .fillMaxWidth().height(320.dp)
                             .padding(12.dp)
                     ) {
                         Column(
@@ -126,7 +121,7 @@ fun WelcomeScreen(navController: NavController) {
                                 )
                             }
                             AppButton(
-                                type = ButtonType.TEXT,
+                                type = ButtonVariant.TEXT,
                                 onPress = {
                                     navController.navigate("home")
                                 },
